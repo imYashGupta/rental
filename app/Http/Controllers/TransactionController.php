@@ -6,7 +6,6 @@ use App\Models\Room;
 use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Transaction;
-use App\Models\Trasaction;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -17,9 +16,10 @@ class TransactionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Room $room)
     {
-        //
+        $transactions= Transaction::where("room_id",$room->id)->latest()->get();
+        return Inertia::render('Transactions',["room" => $room,"transactions" => $transactions]);
     }
 
     /**
@@ -70,9 +70,11 @@ class TransactionController extends Controller
         $transaction->user_id = auth()->user()->id;
         $transaction->type = "ADVANCED/ASSIGNED";
         $transaction->electricity_units = 0;
+        $transaction->electricity_units_consumed = 0;
         $transaction->electricity_charges = 0;
         $transaction->recurring_charges = 0;
         $transaction->rent = $room->rental;
+        $transaction->rent_of = Carbon::today()->toDateString();
         $transaction->remark = $request->remark;
         $transaction->total_amount = $transaction->electricity_charges + $transaction->recurring_charges + $transaction->rent;
         $transaction->save();

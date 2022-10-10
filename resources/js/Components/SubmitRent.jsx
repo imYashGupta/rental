@@ -41,17 +41,17 @@ export default function SubmitRent({ room }) {
         <form onSubmit={submit}>
             <div>
                 <div className="flex justify-between">
-                    <h1 className="font-bold mb-4 text-lg">Submit Rent</h1>
-                    <p>
+                    {/* <h1 className="font-bold mb-4 text-lg">Submit Rent</h1> */}
+                    {/* <p>
                         Last month meter units were:{" "}
                         {room.initial_electricity_units}
-                    </p>
+                    </p> */}
                 </div>
                 <div className="flex flex-row items-center justify-between mb-4">
                     <InputLabel
                         forInput="electricity_consumed"
                         value="Electricity Units Consumed:"
-                        className="text-base"
+                        className="text-base "
                     />
                     <TextInput
                         type="number"
@@ -59,7 +59,7 @@ export default function SubmitRent({ room }) {
                         min={0}
                         value={data.electricity_consumed}
                         className={
-                            "mt-1 block w-full text-base" +
+                            "mt-1 block w-full sm:w-3/4 text-base" +
                             (errors.electricity_consumed
                                 ? "border-red-500"
                                 : " ")
