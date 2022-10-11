@@ -27,6 +27,7 @@ return new class extends Migration
             $table->integer("rent");
             $table->string("remark")->nullable();
             $table->integer("total_amount");
+            $table->date("rent_of")->nullable();
             $table->timestamps();
         });
     }
