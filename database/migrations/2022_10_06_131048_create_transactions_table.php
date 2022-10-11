@@ -19,11 +19,11 @@ return new class extends Migration
             $table->integer("tenant_id");
             $table->integer("user_id");
             $table->string("type");
-            $table->integer("electricity_units")->nullable();
-            $table->integer("electricity_charges")->nullable();
-            $table->integer("electricity_units_consumed")->nullable();
-
-            $table->integer("recurring_charges")->nullable();
+            $table->integer("electricity_units")->default(0);
+            $table->integer("electricity_charges")->default(0);
+            $table->integer("electricity_units_consumed")->default(0);
+            $table->integer("electricity_unit_rate")->default(0);
+            $table->integer("recurring_charges")->default(0);
             $table->integer("rent");
             $table->string("remark")->nullable();
             $table->integer("total_amount");

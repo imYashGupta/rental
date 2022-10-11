@@ -20,7 +20,7 @@ export default function History({transaction,room}) {
             </div>
             <div className={`transition ease-in-out duration-150 ${!show && "hidden " } ` }>
                 <div className="mt-4 flex flex-row justify-between uppercase text-gray-500">
-                    <div className="text-sm">Electricity Consumed: <span className="text-black">{transaction.electricity_units_consumed} units x ₹{room.electricity_unit_rate}</span> </div>
+                    <div className="text-sm">Electricity Consumed: <span className="text-black">{transaction.electricity_units_consumed} units x ₹{transaction.electricity_unit_rate}</span> </div>
                     <div className="text-sm">₹{transaction.electricity_charges}</div>
                 </div>
                 <div className="mt-4 flex flex-row justify-between uppercase text-gray-500">

@@ -2,7 +2,7 @@ import React from "react";
 import Dropdown from "@/Components/Dropdown";
 import { Link } from "@inertiajs/inertia-react";
 
-export default function Room({room}) {
+export default function Room({room,SetShowTenant}) {
     return (
         <>
             <div className="list-items flex flex-row md:items-center justify-between border-b  bg-white shadow-lg sm:rounded-lg my-1 md:p-6 p-4">
@@ -25,12 +25,12 @@ export default function Room({room}) {
                     </div>
                 </div> */}
                 <div className="flex flex-1 flex-col justify-center">
-                    <div className="text-md font-bold">{room.name} {room.remark && <span className="text-xs font-semibold text-gray-500">- {room.remark} </span>} </div>
+                    <div className="text-md font-bold">{room.name} {room.description && <span className="text-xs font-semibold text-gray-500">- {room.description} </span>} </div>
                     {room.next_month && <p className="text-xs text-gray-500 font-semibold">Next: {room.next_month.date} ({room.next_month.days > 0 ? room.next_month.days +" Days left." : "Rent delayed by " + Math.abs(room.next_month.days).toString() +" Days"})</p>}
                 </div>
                 <div className="flex items-center ">
 
-                    {room.user_id && <span className="px-2 py-2 ml-1 bg-blue-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest  shadow-lg ">
+                    {room.user_id && <span onClick={() => {SetShowTenant(room.tenant)}} className="px-2 py-2 ml-1 bg-blue-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest  shadow-lg ">
                         {room.tenant.name}
                     </span>}
                 </div>
@@ -70,16 +70,10 @@ export default function Room({room}) {
                             </Dropdown.Trigger>
 
                             <Dropdown.Content>
-                                <Dropdown.Link
-                                    href={route("property.create")}
-                                    method="get"
-                                    as="a"
-                                >
-                                    Edit Room Details
-                                </Dropdown.Link>
-                                {
-                                room.user_id ? <Dropdown.Link href={route("logout")} method="post" as="button">View Tenant Profile</Dropdown.Link> : <Dropdown.Link href={route("logout")} method="post" as="button">Add Tenant</Dropdown.Link>}
-                                {room.user_id && <Dropdown.Link href={route("rooms.transaction.create",room.id)} method="get" as="a">Submit {room.next_month.month} Rent</Dropdown.Link>}
+                                <Dropdown.Link href={route("property.rooms.edit",[room.property_id,room.id])} method="get" as="a">Edit Room Details</Dropdown.Link>
+                                    {room.user_id ? <Dropdown.Link href={route("logout")} method="post" as="button">View Tenant Profile</Dropdown.Link> : <Dropdown.Link href={route("logout")} method="post" as="button">Add Tenant</Dropdown.Link>}
+                                    {room.user_id && <Dropdown.Link href={route("rooms.transaction.create",room.id)} method="get" as="a">Submit {room.next_month.month} Rent</Dropdown.Link>}
+                                    {room.user_id && <Dropdown.Link href={route("rooms.transaction.create",room.id)+"?vacant=true"} method="get" as="a">Vacant</Dropdown.Link>}
                                 <Dropdown.Link href={route("rooms.transaction.index",room.id)} method="get" as="a">View History</Dropdown.Link>
                             </Dropdown.Content>
                         </Dropdown>

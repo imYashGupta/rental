@@ -5,8 +5,16 @@ import { useForm } from "@inertiajs/inertia-react";
 import InputError from "./InputError";
 import PrimaryButton from "./PrimaryButton";
 
-export default function SubmitRent({ room }) {
+export default function SubmitRent({ room ,type}) {
     console.log(room);
+
+    const rent = () => {
+        if(type == "VACANT"){
+            return 0;
+        }
+        return room.rental;
+    }
+
     const {
         data,
         setData,
@@ -19,25 +27,39 @@ export default function SubmitRent({ room }) {
     } = useForm({
         electricity_consumed: 0,
         recurring_charges: room.recurring_charges,
-        rent: room.rental,
-        total: room.recurring_charges + room.rental,
+        rent: type=="VACANT" ? 0 : room.rental,
+        total: room.recurring_charges + (type=="VACANT" ? 0 : room.rental),
         remark:"",
-        type: "REGULAR",
+        type: type=="VACANT" ? "VACANT" : "REGULAR",
     });
     const onHandleChange = (event) => {
-        setData(
-            event.target.name,
-            event.target.type === "checkbox"
-                ? event.target.checked
-                : event.target.value
-        );
+        let input = parseInt(event.target.value)
+        if(event.target.name=='electricity_consumed'){
+            let total =  room.recurring_charges + data.rent + ((isNaN(input) ? 0 : input) * parseInt(room.electricity_unit_rate));
+            setData({...data,total:total,electricity_consumed:input});
+        }
+        if(event.target.name=='recurring_charges'){
+            let total =  (isNaN(input) ? 0 : input) + data.rent + (data.electricity_consumed * parseInt(room.electricity_unit_rate));
+            setData({...data,total:total,recurring_charges:input});
+        }
+        if(event.target.name=='rent'){
+            let total =  data.recurring_charges + (isNaN(input) ? 0 : input) + (data.electricity_consumed * parseInt(room.electricity_unit_rate));
+            setData({...data,total:total,rent:input});
+        }
     };
+
+
+
     const submit = (e) => {
         e.preventDefault();
         // clearErrors('name','address')
         post(route("rooms.transaction.store", room.id));
     };
+
+
     return (
+        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg px-4 py-4">
+
         <form onSubmit={submit}>
             <div>
                 <div className="flex justify-between">
@@ -59,30 +81,12 @@ export default function SubmitRent({ room }) {
                         min={0}
                         value={data.electricity_consumed}
                         className={
-                            "mt-1 block w-full sm:w-3/4 text-base" +
+                            "mt-1 block w-32 md:w-3/4 text-base" +
                             (errors.electricity_consumed
                                 ? "border-red-500"
                                 : " ")
                         }
-                        handleChange={(e) => {
-                            let electricity_consumed;
-                            if (e.target.value == "") {
-                                electricity_consumed = 0;
-                            } else {
-                                electricity_consumed = parseInt(e.target.value);
-                            }
-                            let total =
-                                room.recurring_charges +
-                                room.rental +
-                                electricity_consumed *
-                                    parseInt(room.electricity_unit_rate);
-                            setData({
-                                ...data,
-                                total: total,
-                                electricity_consumed: electricity_consumed,
-                            });
-                            // console.log("OUTPUT",parseInt(room.electricity_unit_rate))
-                        }}
+                        handleChange={onHandleChange}
                     />
                     <InputError
                         message={errors.electricity_consumed}
@@ -100,7 +104,7 @@ export default function SubmitRent({ room }) {
                         name="recurring_charges"
                         value={data.recurring_charges}
                         className={
-                            "mt-1 block w-full  " +
+                            "mt-1 block w-32 md:w-3/4  " +
                             (errors.recurring_charges ? "border-red-500" : " ")
                         }
                         handleChange={onHandleChange}
@@ -121,7 +125,7 @@ export default function SubmitRent({ room }) {
                         name="rent"
                         value={data.rent}
                         className={
-                            "mt-1 block w-full  " +
+                            "mt-1 block w-32 md:w-3/4  " +
                             (errors.rent ? "border-red-500" : " ")
                         }
                         handleChange={onHandleChange}
@@ -129,7 +133,7 @@ export default function SubmitRent({ room }) {
                     <InputError message={errors.rent} className="mt-2" />
                 </div>
                 <div>
-                    <h1 className="text-right flex justify-between">
+                    <h1 className="text-right flex justify-between uppercase">
                         <span>Total Rent:</span> <span className="font-extrabold">₹{data.total}</span>
                     </h1>
                 </div>
@@ -144,9 +148,8 @@ export default function SubmitRent({ room }) {
                             "mt-1 block w-full " +
                             (errors.remark ? "border-red-500" : " ")
                         }
-                        handleChange={onHandleChange}
+                        handleChange={(e) => setData("remark",e.target.value)}
                     />
-
                     <InputError message={errors.remark} className="mt-2" />
                 </div>
                 <div>
@@ -159,5 +162,6 @@ export default function SubmitRent({ room }) {
                 </div>
             </div>
         </form>
+        </div>
     );
 }

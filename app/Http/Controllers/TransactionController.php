@@ -27,9 +27,9 @@ class TransactionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Room $room)
+    public function create(Request $request,Room $room)
     {
-        return Inertia::render('Transaction',["room" => $room]);
+        return Inertia::render('Transaction',["room" => $room,"vacant" => $request->vacant ? true : false]);
     }
 
     /**
@@ -41,9 +41,9 @@ class TransactionController extends Controller
     public function store(Request $request,Room $room)
     {
 
-        if($request->type=="REGULAR"){
+        if($request->type=="REGULAR" || $request->type=="VACANT"){
             $transaction = new Transaction();
-            $transaction->type = "REGULAR";
+            $transaction->type = $request->type;
             $transaction->room_id = $room->id;
             $transaction->tenant_id = $room->user_id;
             $transaction->user_id = auth()->user()->id;
@@ -57,9 +57,14 @@ class TransactionController extends Controller
             $transaction->rent_of = Carbon::parse($room->next_month["_date"])->toDateString();
             $transaction->save();
             $room->initial_electricity_units = $request->electricity_consumed + $room->initial_electricity_units;
+            $room->rental_date = Carbon::parse($room->next_month["_date"])->toDateString();
+            if($request->type=="VACANT"){
+                $room->user_id = NULL;
+            }
             $room->update();
             return redirect()->route("property.rooms.index",$room->property_id);
         }
+
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
@@ -129,5 +134,11 @@ class TransactionController extends Controller
     public function destroy(Transaction $transaction)
     {
         //
+    }
+
+    public function vacant(Room $room)
+    {
+        $room->user_id = NULL;
+        $room->update();
     }
 }

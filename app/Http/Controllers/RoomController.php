@@ -45,7 +45,7 @@ class RoomController extends Controller
     {
         $request->validate([
             "name" => ["string","required"],
-            "remark" => ["string","max:255"],
+            "description" => ["string","max:255"],
             "rental" => ["integer", "required"],
             "has_electricity_metered" => ["boolean"],
             "electricity_unit_rate" => ["required_if:has_electricity_metered,true", "numeric","nullable"],
@@ -54,7 +54,7 @@ class RoomController extends Controller
 
         $room = new Room();
         $room->name = $request->name;
-        $room->remark = $request->remark;
+        $room->description = $request->description;
         $room->property_id = $property->id;
         $room->rental = $request->rental;
         // $room->user_id = auth()->user()->id;
@@ -84,9 +84,9 @@ class RoomController extends Controller
      * @param  \App\Models\Room  $room
      * @return \Illuminate\Http\Response
      */
-    public function edit(Room $room)
+    public function edit(Property $property,Room $room)
     {
-        //
+        return Inertia::render('EditRoom',["property" => $property,"room" => $room]);
     }
 
     /**
@@ -96,9 +96,17 @@ class RoomController extends Controller
      * @param  \App\Models\Room  $room
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Room $room)
+    public function update(Request $request,Property $property, Room $room)
     {
-        //
+        $room->name = $request->name;
+        $room->description = $request->description;
+        $room->rental = $request->rental;
+        $room->has_electricity_metered = $request->has_electricity_metered;
+        $room->electricity_unit_rate = $request->electricity_unit_rate;
+        $room->initial_electricity_units = $request->initial_electricity_units;
+        $room->recurring_charges = $request->recurring_charges;
+        $room->update();
+        return redirect()->route("property.rooms.index",$room->property_id);
     }
 
     /**
