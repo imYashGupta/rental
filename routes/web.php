@@ -27,9 +27,12 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard',[PropertyController::class,"index"])->middleware(['auth', 'verified'])->name('dashboard');
-Route::resource("property",PropertyController::class);
-Route::resource("property.rooms",RoomController::class);
-Route::resource("rooms.transaction",TransactionController::class);
-Route::get("rooms/{room}/vacant",[TransactionController::class,"vacant"])->name("vacant");
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard',[PropertyController::class,"index"])->name('dashboard');
+    Route::resource("property",PropertyController::class);
+    Route::resource("property.rooms",RoomController::class);
+    Route::resource("rooms.transaction",TransactionController::class);
+    Route::get("rooms/{room}/vacant",[TransactionController::class,"vacant"])->name("vacant");
+});
+
 require __DIR__.'/auth.php';

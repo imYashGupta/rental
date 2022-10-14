@@ -20,7 +20,7 @@ class RoomController extends Controller
 
 
         $rooms=Room::where("property_id",$property->id)->get();
-        return Inertia::render('Rooms',["rooms" => $rooms]);
+        return Inertia::render('Rooms',["rooms" => $rooms,"property" => $property]);
 
     }
 

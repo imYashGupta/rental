@@ -5,10 +5,10 @@ export default function History({transaction,room}) {
 
   return (
     <>
-        <div className="list-items border-b  bg-white shadow-sm sm:rounded-lg my-1 md:p-6 p-4">
+        <div className="list-items border-b  bg-white shadow-sm sm:rounded-lg my-1 md:p-6 p-4 cursor-pointer" onClick={() => setShow(v => !v)}>
             <div className="flex flex-row items-center justify-between ">
                 <h2 className="font-semibold ">{transaction.rent_month} <span className="text-sm font-normal">(Paid on {new Date(transaction.created_at).toLocaleDateString()})</span> - ₹{transaction.total_amount}</h2>
-                <button onClick={() => setShow(v => !v)}  type="button" className="inline-flex items-center ml-2 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                <button   type="button" className="inline-flex items-center ml-2 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
                     {
                         show ? <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />

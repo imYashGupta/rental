@@ -6,6 +6,7 @@ import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import PrimaryButton from "@/Components/PrimaryButton";
 import Checkbox from "@/Components/Checkbox";
+import Header from "@/Components/Header";
 
 export default function Dashboard(props) {
     const { property } = props;
@@ -13,7 +14,7 @@ export default function Dashboard(props) {
     const { data, setData, post, processing, errors, reset, clearErrors } =
         useForm({
             name: "",
-            remark: "",
+            description: "",
             rental:"",
             has_electricity_metered:false,
             electricity_unit_rate:"",
@@ -39,15 +40,13 @@ export default function Dashboard(props) {
         <AuthenticatedLayout
             auth={props.auth}
             errors={props.errors}
-            header={
-                <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    Create New Room in {property.name}
-                </h2>
-            }
+
+            header={<Header back={route("property.rooms.index",property.id)} title={"Create New Room in "+property.name}  />}
+
         >
             <Head title="Create New Property" />
 
-            <div className="py-12">
+            <div className="py-1">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 sm:py-6 lg:py-8">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg px-4 py-4">
                         <form onSubmit={submit}>
@@ -74,24 +73,24 @@ export default function Dashboard(props) {
                             </div>
                             <div className="mb-4">
                                 <InputLabel
-                                    forInput="remark"
-                                    value="Remark (optional)"
+                                    forInput="description"
+                                    value="Description (optional)"
                                 />
 
                                 <TextInput
                                     type="text"
-                                    name="remark"
-                                    value={data.remark}
+                                    name="description"
+                                    value={data.description}
                                     className={
                                         "mt-1 block w-full " +
-                                        (errors.remark ? "border-red-500" : " ")
+                                        (errors.description ? "border-red-500" : " ")
                                     }
                                     isFocused={true}
                                     handleChange={onHandleChange}
                                 />
 
                                 <InputError
-                                    message={errors.remark}
+                                    message={errors.description}
                                     className="mt-2"
                                 />
                             </div>

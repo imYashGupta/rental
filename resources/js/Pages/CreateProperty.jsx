@@ -5,6 +5,7 @@ import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import TextInput from '@/Components/TextInput';
 import PrimaryButton from '@/Components/PrimaryButton';
+import Header from '@/Components/Header';
 
 export default function Dashboard(props) {
 
@@ -27,11 +28,12 @@ export default function Dashboard(props) {
         <AuthenticatedLayout
             auth={props.auth}
             errors={props.errors}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Create New Property</h2>}
+            header={<Header back={route("dashboard")} title={"Create New Property"}  />}
+
         >
             <Head title="Create New Property" />
 
-            <div className="py-12">
+            <div className="py-1">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 sm:py-6 lg:py-8">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg px-4 py-4">
                         <form onSubmit={submit}>

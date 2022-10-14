@@ -40,54 +40,41 @@ class TransactionController extends Controller
      */
     public function store(Request $request,Room $room)
     {
-
-        if($request->type=="REGULAR" || $request->type=="VACANT"){
-            $transaction = new Transaction();
-            $transaction->type = $request->type;
-            $transaction->room_id = $room->id;
-            $transaction->tenant_id = $room->user_id;
-            $transaction->user_id = auth()->user()->id;
-            $transaction->electricity_units = $request->electricity_consumed + $room->initial_electricity_units;
-            $transaction->electricity_units_consumed = $request->electricity_consumed;
-            $transaction->electricity_charges = $request->electricity_consumed * $room->electricity_unit_rate;
-            $transaction->recurring_charges = $request->recurring_charges;
-            $transaction->rent = $request->rent;
-            $transaction->remark = $request->remark;
-            $transaction->total_amount =  $request->recurring_charges + $request->rent + ($request->electricity_consumed * $room->electricity_unit_rate);
-            $transaction->rent_of = Carbon::parse($room->next_month["_date"])->toDateString();
-            $transaction->save();
-            $room->initial_electricity_units = $request->electricity_consumed + $room->initial_electricity_units;
-            $room->rental_date = Carbon::parse($room->next_month["_date"])->toDateString();
-            if($request->type=="VACANT"){
-                $room->user_id = NULL;
-            }
-            $room->update();
-            return redirect()->route("property.rooms.index",$room->property_id);
-        }
-
-        $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->save();
         $transaction = new Transaction();
+        $transaction->type = $request->type;
         $transaction->room_id = $room->id;
-        $transaction->tenant_id = $user->id;
         $transaction->user_id = auth()->user()->id;
-        $transaction->type = "ADVANCED/ASSIGNED";
-        $transaction->electricity_units = 0;
-        $transaction->electricity_units_consumed = 0;
-        $transaction->electricity_charges = 0;
-        $transaction->recurring_charges = 0;
-        $transaction->rent = $room->rental;
-        $transaction->rent_of = Carbon::today()->toDateString();
+        $transaction->electricity_units = $request->electricity_consumed + $room->initial_electricity_units;
+        $transaction->electricity_units_rate = $room->electricity_unit_rate;
+        $transaction->electricity_units_consumed = $request->electricity_consumed;
+        $transaction->electricity_charges = $request->electricity_consumed * $room->electricity_unit_rate;
+        $transaction->recurring_charges = $request->recurring_charges;
+        $transaction->rent = $request->rent;
         $transaction->remark = $request->remark;
-        $transaction->total_amount = $transaction->electricity_charges + $transaction->recurring_charges + $transaction->rent;
-        $transaction->save();
+        $transaction->total_amount =  $request->recurring_charges + $request->rent + ($request->electricity_consumed * $room->electricity_unit_rate);
+        $transaction->rent_of = $request->date;
+        $room->initial_electricity_units = $request->electricity_consumed + $room->initial_electricity_units;
+        $room->rental_date = $request->date;
 
-        $room->user_id = $user->id;
-        $room->advance_rental = $transaction->total_amount;
-        $room->rental_date = now()->toDateString();
+        if($request->type=="VACANT"){
+            $transaction->tenant_id = $room->user_id;
+            $room->user_id = NULL;
+        }
+        if($request->type=="ADVANCE"){
+            $user = new User();
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->save();
+            $room->user_id = $user->id;
+            $room->advance_rental = $transaction->total_amount;
+            $room->update();
+            $transaction->tenant_id = $room->user_id;
+        }
+        if($request->type=="REGULAR"){
+            $transaction->tenant_id = $room->user_id;
+        }
         $room->update();
+        $transaction->save();
         return redirect()->route("property.rooms.index",$room->property_id);
     }
 
