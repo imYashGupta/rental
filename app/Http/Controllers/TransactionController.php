@@ -45,7 +45,7 @@ class TransactionController extends Controller
         $transaction->room_id = $room->id;
         $transaction->user_id = auth()->user()->id;
         $transaction->electricity_units = $request->electricity_consumed + $room->initial_electricity_units;
-        $transaction->electricity_units_rate = $room->electricity_unit_rate;
+        $transaction->electricity_unit_rate = $room->electricity_unit_rate;
         $transaction->electricity_units_consumed = $request->electricity_consumed;
         $transaction->electricity_charges = $request->electricity_consumed * $room->electricity_unit_rate;
         $transaction->recurring_charges = $request->recurring_charges;
