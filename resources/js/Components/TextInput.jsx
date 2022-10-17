@@ -9,7 +9,8 @@ export default function TextInput({
     required,
     isFocused,
     handleChange,
-    placeholder
+    placeholder,
+    disabled,
 }) {
     const input = useRef();
 
@@ -34,6 +35,7 @@ export default function TextInput({
                 required={required}
                 onChange={(e) => handleChange(e)}
                 placeholder={placeholder}
+                disabled={disabled}
             />
         // </div>
     );

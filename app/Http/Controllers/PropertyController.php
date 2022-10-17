@@ -16,7 +16,7 @@ class PropertyController extends Controller
     public function index()
     {
         $properties=Property::where("user_id",auth()->user()->id)->get();
-        return Inertia::render('Dashboard',["properties" => $properties]);
+        return Inertia::render('Properties',["properties" => $properties]);
 
     }
 

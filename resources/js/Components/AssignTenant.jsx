@@ -14,6 +14,7 @@ export default function AssignTenant({room,type}) {
             phone: "",
             date:type!="ADVANCE" ? room.next_month._date.toString().substr(0,10) : "",
             remark: "",
+            electricity_units: room.initial_electricity_units,
             electricity_consumed: 0,
             recurring_charges: room.recurring_charges,
             rent: type=="VACANT" ? 0 : room.rental,
@@ -33,9 +34,10 @@ export default function AssignTenant({room,type}) {
     const onHandleChange = (event) => {
         console.log(event.target.name)
         let input = isNaN(parseInt(event.target.value)) ? 0 : parseInt(event.target.value);
-        if(event.target.name=='electricity_consumed'){
-            let total =  room.recurring_charges + data.rent + ((isNaN(input) ? 0 : input) * parseInt(room.electricity_unit_rate));
-            setData({...data,total:total,electricity_consumed:input});
+        if(event.target.name=='electricity_units'){
+            let electricity_units_consumed = event.target.value - room.initial_electricity_units;
+            let total =  data.recurring_charges + data.rent + ((isNaN(electricity_units_consumed) ? 0 : electricity_units_consumed) * parseInt(room.electricity_unit_rate));
+            setData({...data,total:total,electricity_consumed:electricity_units_consumed,electricity_units:event.target.value});
         }
         else if(event.target.name=='recurring_charges'){
             let total =  (isNaN(input) ? 0 : input) + data.rent + (data.electricity_consumed * parseInt(room.electricity_unit_rate));
@@ -87,7 +89,10 @@ export default function AssignTenant({room,type}) {
                         </div>
                     </>}
                     <div className="flex flex-row items-center justify-between mb-4">
-                        <InputGroup type="number" label="Electricity Units Consumed:" InputClass={"mt-1 block w-32 md:w-3/4 text-base"} name="electricity_consumed" value={data.electricity_consumed} onHandleChange={onHandleChange} errors={errors} />
+                        <InputGroup type="number" label="Starting Electricity Units In Meter:" InputClass={"mt-1 block w-32 md:w-3/4 text-base"} name="electricity_units" value={data.electricity_units} onHandleChange={onHandleChange} errors={errors} />
+                    </div>
+                    <div className="flex flex-row items-center justify-between mb-4">
+                        <InputGroup type="number" label="Electricity Consumed:" disabled={true} InputClass={"mt-1 block w-32 md:w-3/4 text-base"} name="electricity_consumed" value={data.electricity_consumed} onHandleChange={onHandleChange} errors={errors} />
                     </div>
                     <div className="flex flex-row items-center justify-between mb-4">
                         <InputGroup type="number" label="Recurring Charges:" InputClass={"mt-1 block w-32 md:w-3/4 text-base"} name="recurring_charges" value={data.recurring_charges} onHandleChange={onHandleChange} errors={errors} />

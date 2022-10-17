@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\TransactionController;
@@ -28,11 +29,12 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard',[PropertyController::class,"index"])->name('dashboard');
+    Route::get('/dashboard',[DashboardController::class,"dashboard"])->name('dashboard');
     Route::resource("property",PropertyController::class);
     Route::resource("property.rooms",RoomController::class);
     Route::resource("rooms.transaction",TransactionController::class);
     Route::get("rooms/{room}/vacant",[TransactionController::class,"vacant"])->name("vacant");
 });
+Route::get("myntra",[DashboardController::class,"myntra"])->name("myntra");
 
 require __DIR__.'/auth.php';
