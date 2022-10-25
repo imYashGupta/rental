@@ -20,10 +20,13 @@ class DashboardController extends Controller
         $currentYearElectricity= Transaction::whereYear('rent_of', '=', Carbon::now()->year)->sum("electricity_charges");
         $lastYear= Transaction::whereYear('rent_of', '=', Carbon::now()->subYear()->year)->sum("total_amount");
         $lastYearElectricity= Transaction::whereYear('rent_of', '=', Carbon::now()->subYear()->year)->sum("electricity_charges");
-        $all= Transaction::get()->groupBy(function($val) {
+        $totalIncome= Transaction::where("user_id",auth()->id())->sum("total_amount");
+         $all= Transaction::get()->groupBy(function($val) {
             return Carbon::parse($val->rent_of)->format('m-Y');
         });
-        [
+
+
+        $stats=[
             "currentMonth" => $currentMonth,
             "currentMonthElectricity" => $currentMonthElectricity,
             "lastMonth" => $lastMonth,
@@ -33,9 +36,11 @@ class DashboardController extends Controller
             "lastYear" => $lastYear,
             "lastYearElectricity" => $lastYearElectricity,
             "all" => $all,
+            "total" => $totalIncome,
+            "start_date" => $all->first()->first()->rent_month
         ];
 
-        return Inertia::render("Dashboard");
+        return Inertia::render("Dashboard",["stats" => $stats]);
     }
 
     public function myntra()
