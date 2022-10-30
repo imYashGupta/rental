@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Room;
 use Carbon\Carbon;
 use Inertia\Inertia;
 use App\Models\Transaction;
@@ -24,6 +25,8 @@ class DashboardController extends Controller
          $all= Transaction::get()->groupBy(function($val) {
             return Carbon::parse($val->rent_of)->format('m-Y');
         });
+
+        // return Room::all();
 
 
         $stats=[

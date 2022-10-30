@@ -112,7 +112,7 @@ const Dashboard = (props) => {
         <AuthenticatedLayout
             auth={props.auth}
             errors={props.errors}
-            header={<Header title="Dashboard" />}
+            header={<Header title="Dashboard" actionButton={{text:"Properties",url:route("property.index")}} />}
         >
             <Head title="Dashboard" />
             <div className="py-6">

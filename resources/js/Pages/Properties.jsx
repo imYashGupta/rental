@@ -9,25 +9,14 @@ import {
     PlusIcon,
     EyeIcon,
 } from "@heroicons/react/24/outline";
+import Header from "@/Components/Header";
 
 export default function Dashboard(props) {
     return (
         <AuthenticatedLayout
             auth={props.auth}
             errors={props.errors}
-            header={
-                <div className="flex justify-between items-center">
-                    <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                        Properties
-                    </h2>
-                    <Link
-                        href={route('property.create')}
-                        className="flex p-3 text-blue-600 uppercase text-xs font-black items-center justify-center rounded-full bg-blue-100 "
-                    >
-                        Create New Property
-                    </Link>
-                </div>
-            }
+            header={<Header title="Properties" back={route("dashboard")} actionButton={{text:"Create New Property",url:route("property.create")}} />}
         >
             <Head title="Dashboard" />
 

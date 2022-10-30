@@ -11,7 +11,7 @@ const InputGroup = ({label,name,type,value,onHandleChange,errors,labelClass,Inpu
                 name={name}
                 value={value}
                 className={
-                    "mt-1 block w-full " + InputClass +
+                    "mt-1 block  " + InputClass +
                     (errors.name ? " border-red-500" : " ")
                 }
                 handleChange={onHandleChange}

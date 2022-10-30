@@ -80,10 +80,10 @@ export default function AssignTenant({room,type}) {
                             </div>
                         </div>
                         <div className="mb-4 flex ">
-                            <div className="mr-1 md:w-full flex flex-1 flex-col">
+                            <div className="mr-1 md:w-full">
                                 <InputGroup type={"email"} label="Email" name="email" value={data.email} onHandleChange={onHandleChange} errors={errors} />
                             </div>
-                            <div className="ml-1 md:w-full flex flex-1 flex-col">
+                            <div className="ml-1 md:w-full ">
                                 <InputGroup type={"date"} label="Rental Date" name="date" value={data.date} onHandleChange={onHandleChange} errors={errors} />
                             </div>
                         </div>
@@ -106,7 +106,7 @@ export default function AssignTenant({room,type}) {
                     </h1>
                 </div>
                 <div className="mt-4">
-                    <InputGroup type="text" label="Remark (optional):"  name="remark" value={data.remark} onHandleChange={onHandleChange} errors={errors} />
+                    <InputGroup type="text" label="Remark (optional):" InputClass={"w-full"}  name="remark" value={data.remark} onHandleChange={onHandleChange} errors={errors} />
 
                 </div>
                     <div className="mt-4">
