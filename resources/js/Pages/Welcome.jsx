@@ -28,7 +28,7 @@ export default function Welcome(props) {
                 </div>
 
                 <div className="max-w-6xl mx-auto sm:px-6 lg:px-8">
-
+                        Wlcm
                 </div>
             </div>
         </>
