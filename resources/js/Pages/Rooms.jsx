@@ -58,6 +58,7 @@ export default function Dashboard(props) {
                     actionButton={{
                         url: route("property.rooms.create", props.property.id),
                         text: "New Room",
+                        icon:"HomeIcon"
                     }}
                 />
             }

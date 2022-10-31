@@ -16,7 +16,7 @@ export default function Dashboard(props) {
         <AuthenticatedLayout
             auth={props.auth}
             errors={props.errors}
-            header={<Header title="Properties" back={route("dashboard")} actionButton={{text:"Create New Property",url:route("property.create")}} />}
+            header={<Header title="Properties" back={route("dashboard")} actionButton={{text:"Create New Property",url:route("property.create"),icon:"BuildingOfficeIcon"}} />}
         >
             <Head title="Dashboard" />
 
