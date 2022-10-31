@@ -12,7 +12,7 @@ const RoomCard = ({room,SetShowRoom}) => {
             <a href="#" className="block hover:bg-gray-50" onClick={() => SetShowRoom(room)}>
                 <div className="px-4 py-4 sm:px-6">
                     <div className="flex items-center justify-between">
-                        <p className="text-sm font-medium text-indigo-600 truncate flex-1">
+                        <p className="text-lg font-medium text-indigo-600 truncate flex-1">
                             {room.name}
                             {room.description && <span className="text-xs text-green-800">
                             - {room.description}{" "}

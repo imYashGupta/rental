@@ -15,12 +15,13 @@ class DashboardController extends Controller
     {
         $currentMonth= Transaction::whereMonth('rent_of', '=', Carbon::now()->month)->sum("total_amount");
         $currentMonthElectricity= Transaction::whereMonth('rent_of', '=', Carbon::now()->month)->sum("electricity_charges");
-        $lastMonthElectricity= Transaction::whereMonth('rent_of', '=', Carbon::now()->subMonth()->month)->sum("electricity_charges");
-        $lastMonth= Transaction::whereMonth('rent_of', '=', Carbon::now()->subMonth()->month)->sum("total_amount");
+        // return  Carbon::now()->subMonthNoOverflow()->month;
+        $lastMonthElectricity= Transaction::whereMonth('rent_of', '=', Carbon::now()->subMonthNoOverflow()->month)->sum("electricity_charges");
+        $lastMonth= Transaction::whereMonth('rent_of', '=', Carbon::now()->subMonthNoOverflow()->month)->sum("total_amount");
         $currentYear= Transaction::whereYear('rent_of', '=', Carbon::now()->year)->sum("total_amount");
         $currentYearElectricity= Transaction::whereYear('rent_of', '=', Carbon::now()->year)->sum("electricity_charges");
-        $lastYear= Transaction::whereYear('rent_of', '=', Carbon::now()->subYear()->year)->sum("total_amount");
-        $lastYearElectricity= Transaction::whereYear('rent_of', '=', Carbon::now()->subYear()->year)->sum("electricity_charges");
+        $lastYear= Transaction::whereYear('rent_of', '=', Carbon::now()->subYearNoOverflow()->year)->sum("total_amount");
+        $lastYearElectricity= Transaction::whereYear('rent_of', '=', Carbon::now()->subYearNoOverflow()->year)->sum("electricity_charges");
         $totalIncome= Transaction::where("user_id",auth()->id())->sum("total_amount");
          $all= Transaction::get()->groupBy(function($val) {
             return Carbon::parse($val->rent_of)->format('m-Y');
@@ -28,8 +29,11 @@ class DashboardController extends Controller
 
         // return Room::all();
 
+        $upcomingRents=Room::whereNotNull("user_id")->limit(3)->get();
 
-        $stats=[
+
+
+       $stats=[
             "currentMonth" => $currentMonth,
             "currentMonthElectricity" => $currentMonthElectricity,
             "lastMonth" => $lastMonth,
@@ -40,7 +44,8 @@ class DashboardController extends Controller
             "lastYearElectricity" => $lastYearElectricity,
             "all" => $all,
             "total" => $totalIncome,
-            "start_date" => $all->first()->first()->rent_month
+            "start_date" => $all?->first()?->first()?->rent_month,
+            "upcomingRents" => $upcomingRents
         ];
 
         return Inertia::render("Dashboard",["stats" => $stats]);

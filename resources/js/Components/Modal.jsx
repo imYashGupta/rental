@@ -80,8 +80,8 @@ export default function Modal({ room, SetShowRoom }) {
                                                     )}
                                                     <p>
                                                         Email:{" "}
-                                                        <a href="">
-                                                            Some@mail.com
+                                                        <a href={"mailto:"+room.tenant.email}>
+                                                            {room.tenant.email}
                                                         </a>
                                                     </p>
                                                     <p>
