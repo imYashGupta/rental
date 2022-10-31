@@ -87,13 +87,16 @@ const Dashboard = (props) => {
         <AuthenticatedLayout
             auth={props.auth}
             errors={props.errors}
-            header={<Header title="Dashboard" actionButton={{text:"Properties",url:route("property.index")}} />}
+            header={<Header title="Dashboard" actionButton={{text:"Properties",url:route("property.index"),icon:"BuildingOffice2Icon"}} Icon={"BuildingOffice2Icon"} />}
         >
             <Head title="Dashboard" />
-            <div className="py-1">
+            <div className="py-1 md:py-6">
                 <section className="list-container">
-                    <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 mb-2 ">
-                        <div className="flex flex-1 bg-white items-center justify-between  px-4 py-5   sm:px-6 lg:px-8 ">
+                    <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 mb-6 ">
+                        <div className="shadow-xl rounded-md">
+
+
+                        <div className="flex flex-1 bg-white items-center justify-between  px-4 py-5   sm:px-6 lg:px-8 border-b ">
 
                                 <h3 className="text-lg leading-6 font-medium text-gray-900">
                                     {enabledAnnually ? "Annually" : "Monthly"} Stats
@@ -133,7 +136,7 @@ const Dashboard = (props) => {
 
                             </Switch.Group>
                         </div>
-                        <dl className="mt-1 grid grid-cols-1 rounded-lg bg-white overflow-hidden shadow divide-y divide-gray-200 md:grid-cols-3 md:divide-y-0 md:divide-x">
+                        <dl className=" grid grid-cols-1   bg-white overflow-hidden  divide-y divide-gray-200 md:grid-cols-3 md:divide-y-0 md:divide-x">
                             {stats.map((item) => (
                                 <div
                                     key={item.name}
@@ -183,20 +186,25 @@ const Dashboard = (props) => {
                                 </div>
                             ))}
                         </dl>
+                        </div>
                     </div>
 
-                    <div className="bg-white px-4 py-5 border-b border-gray-200  max-w-7xl mx-auto sm:px-6 lg:px-8 ">
-                        <h3 className="text-lg leading-6 font-medium text-gray-900">
-                            Upcoming Rent
-                        </h3>
-                    </div>
+                    <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 mb-6 ">
+                        <div  className="shadow-xl rounded-md">
+                            <div className="bg-white px-4 py-5 border-b border-gray-200   ">
+                                <h3 className="text-lg leading-6 font-medium text-gray-900">
+                                    Upcoming Rent
+                                </h3>
+                            </div>
 
-                    <div className="bg-white shadow overflow-hidden sm:rounded-md  max-w-7xl mx-auto sm:px-6 lg:px-8 mb-2">
-                        <ul className="divide-y  divide-gray-200">
-                            {
-                                props.stats.upcomingRents.map(room => <RoomCard room={room} SetShowRoom={SetShowRoom} />)
-                            }
-                        </ul>
+                            <div className="bg-white  overflow-hidden  ">
+                                <ul className="divide-y  divide-gray-200">
+                                    {
+                                        props.stats.upcomingRents.map(room => <RoomCard room={room} SetShowRoom={SetShowRoom} />)
+                                    }
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </section>
             </div>
