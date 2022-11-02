@@ -2,11 +2,8 @@ import React from "react";
 import {
     CalendarIcon,
     UserCircleIcon,
-    EllipsisVerticalIcon,
 } from "@heroicons/react/24/solid";
-import DropdownIcon from "./DropdownIcon";
 const RoomCard = ({room,SetShowRoom}) => {
-    // console.log(room)
     return (
         <li key={room.id}>
             <a href="#" className="block hover:bg-gray-50" onClick={() => SetShowRoom(room)}>

@@ -29,6 +29,8 @@ class TransactionController extends Controller
      */
     public function create(Request $request,Room $room)
     {
+        $lastTransaction= Transaction::where("room_id",$room->id)->where("tenant_id",$room->tenant_id)->latest()->first();
+        $room->balance = $lastTransaction ? $lastTransaction->balance : 0;
         return Inertia::render('Transaction',["room" => $room,"vacant" => $request->vacant ? true : false]);
     }
 
@@ -40,6 +42,18 @@ class TransactionController extends Controller
      */
     public function store(Request $request,Room $room)
     {
+       /*  $request->validate([
+            "name" => ["string","required"],
+            "description" => ["string","max:255"],
+            "rental" => ["integer", "required"],
+            "has_electricity_metered" => ["boolean"],
+            "electricity_unit_rate" => ["required_if:has_electricity_metered,true", "numeric","nullable"],
+            "initial_electricity_units" => ["required_if:has_electricity_metered,true", "integer", "nullable"],
+        ]); */
+
+        $lastTransaction= Transaction::where("room_id",$room->id)->where("tenant_id",$room->tenant_id)->latest()->first();
+
+
         $transaction = new Transaction();
         $transaction->type = $request->type;
         $transaction->room_id = $room->id;
@@ -53,25 +67,33 @@ class TransactionController extends Controller
         $transaction->remark = $request->remark;
         $transaction->total_amount =  $request->recurring_charges + $request->rent + ($request->electricity_consumed * $room->electricity_unit_rate);
         $transaction->rent_of = $request->date;
+        $transaction->amount_collected = $request->amount_collected;
+        if($lastTransaction && $lastTransaction->balance!=0){
+            $total = $transaction->total_amount + $lastTransaction->balance;
+            //3100
+            $transaction->balance = $total-$request->amount_collected;
+        }else{
+            $transaction->balance = $transaction->total_amount-$request->amount_collected;
+        }
         $room->initial_electricity_units = $request->electricity_consumed + $room->initial_electricity_units;
         $room->rental_date = $request->date;
 
         if($request->type=="VACANT"){
-            $transaction->tenant_id = $room->user_id;
-            $room->user_id = NULL;
+            $transaction->tenant_id = $room->tenant_id;
+            $room->tenant_id = NULL;
         }
         if($request->type=="ADVANCE"){
             $user = new User();
             $user->name = $request->name;
             $user->email = $request->email;
             $user->save();
-            $room->user_id = $user->id;
+            $room->tenant_id = $user->id;
             $room->advance_rental = $transaction->total_amount;
             $room->update();
-            $transaction->tenant_id = $room->user_id;
+            $transaction->tenant_id = $user->id;
         }
         if($request->type=="REGULAR"){
-            $transaction->tenant_id = $room->user_id;
+            $transaction->tenant_id = $room->tenant_id;
         }
         $room->update();
         $transaction->save();
@@ -125,7 +147,7 @@ class TransactionController extends Controller
 
     public function vacant(Room $room)
     {
-        $room->user_id = NULL;
+        $room->tenant_id = NULL;
         $room->update();
     }
 }

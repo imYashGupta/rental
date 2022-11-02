@@ -15,9 +15,10 @@ class Room extends Model
     public function getNextMonthAttribute()
     {
         if(!is_null($this->rental_date)){
-            if(!is_null($this->user_id)){
+            if(!is_null($this->tenant_id)){
+                // return $this->id;
                 $transaction = Transaction::where("room_id",$this->id)
-                                ->where("tenant_id",$this->user_id)
+                                ->where("tenant_id",$this->tenant_id)
                                 ->latest()
                                 ->first();
                 if($transaction){
@@ -45,9 +46,11 @@ class Room extends Model
 
     public function getTenantAttribute()
     {
-        if(!is_null($this->user_id)){
-            return User::find($this->user_id);
+        if(!is_null($this->tenant_id)){
+            return User::find($this->tenant_id);
         }
         return false;
     }
+
+
 }

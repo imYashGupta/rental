@@ -1,17 +1,18 @@
 import React, { useEffect, useRef } from 'react';
 
-export default function TextInput({
-    type = 'text',
-    name,
-    value,
-    className,
-    autoComplete,
-    required,
-    isFocused,
-    handleChange,
-    placeholder,
-    disabled,
-}) {
+export default function TextInput(props) {
+    const {
+        type = 'text',
+        name,
+        value,
+        className,
+        autoComplete,
+        required,
+        isFocused,
+        handleChange,
+        placeholder,
+        disabled,
+    } = props;
     const input = useRef();
 
     useEffect(() => {
@@ -36,6 +37,7 @@ export default function TextInput({
                 onChange={(e) => handleChange(e)}
                 placeholder={placeholder}
                 disabled={disabled}
+                // {...props}
             />
         // </div>
     );

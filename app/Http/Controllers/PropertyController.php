@@ -48,7 +48,7 @@ class PropertyController extends Controller
         $property->name = $request->name;
         $property->address = $request->address;
         $property->save();
-        return redirect()->route("dashboard");
+        return redirect()->route("property.index",$property->id);
     }
 
     /**

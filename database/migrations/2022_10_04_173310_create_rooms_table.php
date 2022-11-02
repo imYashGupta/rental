@@ -17,7 +17,8 @@ return new class extends Migration
             $table->id();
             $table->integer("property_id");
             $table->string("name");
-            $table->integer("user_id")->nullable();
+            $table->integer("user_id");
+            $table->integer("tenant_id")->nullable();
             $table->string("description")->nullable();
             $table->integer("rental");
             $table->integer("advance_rental")->nullable();

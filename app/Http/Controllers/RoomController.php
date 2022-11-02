@@ -54,10 +54,10 @@ class RoomController extends Controller
 
         $room = new Room();
         $room->name = $request->name;
+        $room->user_id = auth()->user()->id;
         $room->description = $request->description;
         $room->property_id = $property->id;
         $room->rental = $request->rental;
-        // $room->user_id = auth()->user()->id;
         $room->has_electricity_metered = $request->has_electricity_metered;
         $room->electricity_unit_rate = $request->electricity_unit_rate;
         $room->initial_electricity_units = $request->initial_electricity_units;

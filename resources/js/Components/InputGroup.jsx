@@ -2,7 +2,8 @@ import React from "react";
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
-const InputGroup = ({label,name,type,value,onHandleChange,errors,labelClass,InputClass,ErrorClass,disabled}) => {
+const InputGroup = (props) => {
+    const {label,name,type,value,onHandleChange,errors,labelClass,InputClass,ErrorClass} = props;
     return (
         <>
             <InputLabel forInput={name} ty value={label} />
@@ -15,7 +16,7 @@ const InputGroup = ({label,name,type,value,onHandleChange,errors,labelClass,Inpu
                     (errors.name ? " border-red-500" : " ")
                 }
                 handleChange={onHandleChange}
-                disabled={disabled}
+                {...props}
 
             />
             <InputError message={errors.name} className="mt-2" />

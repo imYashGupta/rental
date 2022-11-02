@@ -103,12 +103,12 @@ export default function Modal({ room, SetShowRoom }) {
                                         {room.description}
                                     </p>
                                 </div>
-                                <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                                    {isNull(room.user_id) && (
+                                <div className="bg-gray-50 px-4 py-3 sm:flex   sm:px-6">
+                                    {isNull(room.tenant_id) && (
                                         <Link
                                             as="button"
                                             href={route("rooms.transaction.create",room.id)}
-                                            className="mt-1 inline-flex w-full justify-center rounded-md items-center px-4 py-2 border border-transparent text-base font-medium text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                            className="mt-1 lg:mr-2 inline-flex w-full justify-center rounded-md items-center px-4 py-2 border border-transparent text-base font-medium text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                         >
                                             Assign Tenant
                                         </Link>
@@ -116,7 +116,7 @@ export default function Modal({ room, SetShowRoom }) {
                                     <Link
                                         as="button"
                                         href={room && route("property.rooms.edit", [room.property_id,room.id,])}
-                                        className="mt-1 inline-flex w-full justify-center rounded-md items-center px-4 py-2 border border-transparent text-base font-medium text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                        className="mt-1  lg:mr-2 inline-flex w-full justify-center rounded-md items-center px-4 py-2 border border-transparent text-base font-medium text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                     >
                                         Edit Room Details
                                     </Link>
@@ -124,7 +124,7 @@ export default function Modal({ room, SetShowRoom }) {
                                         <Link
                                             as="button"
                                             href={route("rooms.transaction.create",room.id)}
-                                            className="mt-1 inline-flex w-full justify-center rounded-md items-center px-4 py-2 border border-transparent text-base font-medium text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                            className="mt-1 lg:mr-2 inline-flex w-full justify-center rounded-md items-center px-4 py-2 border border-transparent text-base font-medium text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                         >
                                             Submit Rent
                                         </Link>
@@ -132,7 +132,7 @@ export default function Modal({ room, SetShowRoom }) {
                                     <Link
                                         type="button"
                                         href={room && route("rooms.transaction.index",room.id)}
-                                        className="mt-1 inline-flex w-full justify-center rounded-md items-center px-4 py-2 border border-transparent text-base font-medium text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                        className="mt-1 lg:mr-2 inline-flex w-full justify-center rounded-md items-center px-4 py-2 border border-transparent text-base font-medium text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                     >
                                         History
                                     </Link>
@@ -140,7 +140,7 @@ export default function Modal({ room, SetShowRoom }) {
                                         <Link
                                             as="button"
                                             href={route("rooms.transaction.create",room.id) + "?vacant=true"}
-                                            className="mt-1 inline-flex w-full justify-center rounded-md items-center px-4 py-2 border border-transparent text-base font-medium text-red-700 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                                            className="mt-1  inline-flex w-full justify-center rounded-md items-center px-4 py-2 border border-transparent text-base font-medium text-red-700 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                                         >
                                             Vacant
                                         </Link>

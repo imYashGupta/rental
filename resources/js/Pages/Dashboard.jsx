@@ -11,17 +11,19 @@ import {
 import { Switch } from "@headlessui/react";
 import RoomCard from "@/Components/RoomCard";
 import Modal from "@/Components/Modal";
+import { isNaN } from "lodash";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
 
-const getChangeDiff = (current, previous) => {
-    if (previous == 0) {
-        previous = 1;
-    }
-    return Math.round((parseInt(current) / parseInt(previous)) * 100 - 100);
-};
+const getChangeDiff = (_a,_b) => {
+    let a = parseInt(_a);
+    let b = parseInt(_b);
+    return (( b / a * 100 ) - 100);
+    // return   ( a<b ? "-" + ((b - a) * 100) / a : ((a - b) * 100) / b );
+}
+
 
 
 const Dashboard = (props) => {
@@ -153,7 +155,7 @@ const Dashboard = (props) => {
                                             </span>
                                         </div>
 
-                                        <div
+                                        {!isNaN(item.change) && <div
                                             className={classNames(
                                                 item.changeType() === "increase"
                                                     ? "bg-green-100 text-green-800"
@@ -181,7 +183,7 @@ const Dashboard = (props) => {
                                                 by
                                             </span>
                                             {item.change}%
-                                        </div>
+                                        </div>}
                                     </dd>
                                 </div>
                             ))}
@@ -203,6 +205,11 @@ const Dashboard = (props) => {
                                         props.stats.upcomingRents.map(room => <RoomCard room={room} SetShowRoom={SetShowRoom} />)
                                     }
                                 </ul>
+                                {
+                                    props.stats.upcomingRents.length == 0 && (<p className="mt-1 p-3 text-sm text-gray-500">
+                                    No Upcoming rents.
+                                  </p>)
+                                }
                             </div>
                         </div>
                     </div>

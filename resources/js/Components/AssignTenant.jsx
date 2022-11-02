@@ -1,12 +1,10 @@
 import React from "react";
 import { useForm } from "@inertiajs/inertia-react";
-import InputError from "@/Components/InputError";
-import InputLabel from "@/Components/InputLabel";
-import TextInput from "@/Components/TextInput";
 import PrimaryButton from "@/Components/PrimaryButton";
 import InputGroup from "./InputGroup";
 
 export default function AssignTenant({room,type}) {
+    console.log(room)
     const { data, setData, post, processing, errors,transform , reset, clearErrors } =
         useForm({
             name: "",
@@ -20,6 +18,8 @@ export default function AssignTenant({room,type}) {
             rent: type=="VACANT" ? 0 : room.rental,
             total: room.recurring_charges + (type=="VACANT" ? 0 : room.rental),
             type: type,
+            balance:room.balance,
+            amount_collected:room.balance + room.recurring_charges + (type=="VACANT" ? 0 : room.rental),
         });
 
     /* const onHandleChange = (event) => {
@@ -37,15 +37,18 @@ export default function AssignTenant({room,type}) {
         if(event.target.name=='electricity_units'){
             let electricity_units_consumed = event.target.value - room.initial_electricity_units;
             let total =  data.recurring_charges + data.rent + ((isNaN(electricity_units_consumed) ? 0 : electricity_units_consumed) * parseInt(room.electricity_unit_rate));
-            setData({...data,total:total,electricity_consumed:electricity_units_consumed,electricity_units:event.target.value});
+            setData({...data,total:total,electricity_consumed:electricity_units_consumed,electricity_units:event.target.value,amount_collected:total});
         }
         else if(event.target.name=='recurring_charges'){
             let total =  (isNaN(input) ? 0 : input) + data.rent + (data.electricity_consumed * parseInt(room.electricity_unit_rate));
-            setData({...data,total:total,recurring_charges:input});
+            setData({...data,total:total,recurring_charges:input,amount_collected:total});
         }
         else if(event.target.name=='rent'){
             let total =  data.recurring_charges + (isNaN(input) ? 0 : input) + (data.electricity_consumed * parseInt(room.electricity_unit_rate));
-            setData({...data,total:total,rent:input});
+            setData({...data,total:total,rent:input,amount_collected:total});
+        }
+        else if(event.target.name=='amount_collected'){
+            setData({...data,amount_collected:input,balance:data.total+room.balance- input});
         }
         else{
             setData(
@@ -68,43 +71,49 @@ export default function AssignTenant({room,type}) {
         <>
             <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg px-4 py-4">
                 <form onSubmit={submit}>
-                    <h3 className="mb-4">Create And Assign Tenant</h3>
+                    <h3 className="mb-4">{type=="ADVANCE" ? "Assign Tenant with Advanced Rent" : <>Submit <strong>{room.next_month.month}</strong> Rent</>}</h3>
                     {type=="ADVANCE" &&
                     <>
                         <div className="mb-4 flex ">
                             <div className="mr-1 md:w-full">
-                                <InputGroup type={"text"} label="Name" name="name" value={data.name} onHandleChange={onHandleChange} errors={errors} />
+                                <InputGroup type={"text"} required label="Name" name="name" InputClass={"w-full"} value={data.name} onHandleChange={onHandleChange} errors={errors} />
                             </div>
                             <div className="ml-1 md:w-full">
-                                <InputGroup type={"text"} label="Phone Number" name="phone" value={data.phone} onHandleChange={onHandleChange} errors={errors} />
+                                <InputGroup type={"text"} required label="Phone Number" InputClass={"w-full"} name="phone" value={data.phone} onHandleChange={onHandleChange} errors={errors} />
                             </div>
                         </div>
                         <div className="mb-4 flex ">
                             <div className="mr-1 md:w-full">
-                                <InputGroup type={"email"} label="Email" name="email" value={data.email} onHandleChange={onHandleChange} errors={errors} />
+                                <InputGroup type={"email"} required label="Email" InputClass={"w-full"} name="email" value={data.email} onHandleChange={onHandleChange} errors={errors} />
                             </div>
                             <div className="ml-1 md:w-full ">
-                                <InputGroup type={"date"} label="Rental Date" name="date" value={data.date} onHandleChange={onHandleChange} errors={errors} />
+                                <InputGroup type={"date"} required label="Rental Date" InputClass={"w-full"} name="date" value={data.date} onHandleChange={onHandleChange} errors={errors} />
                             </div>
                         </div>
                     </>}
                     <div className="flex flex-row items-center justify-between mb-4">
-                        <InputGroup type="number" label="Starting Electricity Units In Meter:" InputClass={"mt-1 block w-32 md:w-3/4 text-base"} name="electricity_units" value={data.electricity_units} onHandleChange={onHandleChange} errors={errors} />
+                        <InputGroup type="number" min={room.initial_electricity_units} required label={type=="ADVANCE" ? "Starting Electricity Units In Meter:" : "Electricity Units In Meter"} InputClass={"mt-1 block w-32 md:w-3/4 text-base"} name="electricity_units" value={data.electricity_units} onHandleChange={onHandleChange} errors={errors} />
                     </div>
                     <div className="flex flex-row items-center justify-between mb-4">
-                        <InputGroup type="number" label="Electricity Consumed:" disabled={true} InputClass={"mt-1 block w-32 md:w-3/4 text-base"} name="electricity_consumed" value={data.electricity_consumed} onHandleChange={onHandleChange} errors={errors} />
+                        <InputGroup type="number"  required label="Electricity Consumed:" disabled={true} InputClass={"mt-1 block w-32 md:w-3/4 text-base bg-gray-200"} name="electricity_consumed" value={data.electricity_consumed} onHandleChange={onHandleChange} errors={errors} />
                     </div>
                     <div className="flex flex-row items-center justify-between mb-4">
-                        <InputGroup type="number" label="Recurring Charges:" InputClass={"mt-1 block w-32 md:w-3/4 text-base"} name="recurring_charges" value={data.recurring_charges} onHandleChange={onHandleChange} errors={errors} />
+                        <InputGroup type="number" required label="Recurring Charges:" InputClass={"mt-1 block w-32 md:w-3/4 text-base"} name="recurring_charges" value={data.recurring_charges} onHandleChange={onHandleChange} errors={errors} />
                     </div>
                 <div className="flex flex-row items-center justify-between mb-4">
-                    <InputGroup type="number" label="Basic Rent:" InputClass={"mt-1 block w-32 md:w-3/4 text-base"} name="rent" value={data.rent} onHandleChange={onHandleChange} errors={errors} />
+                    <InputGroup type="number" required label="Basic Rent:" InputClass={"mt-1 block w-32 md:w-3/4 text-base"} name="rent" value={data.rent} onHandleChange={onHandleChange} errors={errors} />
                 </div>
                 <div>
                     <h1 className="text-right flex justify-between uppercase">
                         <span>Total Rent:</span> <span className="font-extrabold">₹{data.total}</span>
                     </h1>
                 </div>
+                <div className="flex flex-row items-center justify-between mt-4 mb-4">
+                    <InputGroup type="number" disabled={true} label="Balance Amount" InputClass={`mt-1 block w-32 md:w-3/4 text-base ${data.balance > 0 && "bg-red-100"} ${data.balance < 0 && "bg-green-100"} ${data.balance == 0 && "bg-gray-200"}`} name="balance" value={data.balance} onHandleChange={onHandleChange} errors={errors} />
+                </div>
+                <div className="flex flex-row items-center justify-between mt-4 mb-4">
+                        <InputGroup type="number" required label="Amount to be Collected:" InputClass={"mt-1 block w-32 md:w-3/4 text-base"} name="amount_collected" value={data.amount_collected} onHandleChange={onHandleChange} errors={errors} />
+                    </div>
                 <div className="mt-4">
                     <InputGroup type="text" label="Remark (optional):" InputClass={"w-full"}  name="remark" value={data.remark} onHandleChange={onHandleChange} errors={errors} />
 
