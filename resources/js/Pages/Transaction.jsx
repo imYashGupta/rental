@@ -10,7 +10,7 @@ import SubmitRent from "@/Components/SubmitRent";
 import AssignTenant from "@/Components/AssignTenant";
 import Vacant from "@/Components/Vacant";
 import Header from "@/Components/Header";
-
+// YQ,DEZ8!%Q!2
 export default function Dashboard(props) {
     const { room,vacant } = props;
 
