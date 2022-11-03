@@ -4,7 +4,7 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import InputGroup from "./InputGroup";
 
 export default function AssignTenant({room,type}) {
-    console.log(room)
+    // console.log(room)
     const { data, setData, post, processing, errors,transform , reset, clearErrors } =
         useForm({
             name: "",
@@ -20,6 +20,7 @@ export default function AssignTenant({room,type}) {
             type: type,
             balance:room.balance,
             amount_collected:room.balance + room.recurring_charges + (type=="VACANT" ? 0 : room.rental),
+            //-465 + 35 + 4500
         });
 
     /* const onHandleChange = (event) => {
@@ -32,20 +33,21 @@ export default function AssignTenant({room,type}) {
     }; */
 
     const onHandleChange = (event) => {
-        console.log(event.target.name)
+        // console.log(event.target.name)
         let input = isNaN(parseInt(event.target.value)) ? 0 : parseInt(event.target.value);
         if(event.target.name=='electricity_units'){
             let electricity_units_consumed = event.target.value - room.initial_electricity_units;
             let total =  data.recurring_charges + data.rent + ((isNaN(electricity_units_consumed) ? 0 : electricity_units_consumed) * parseInt(room.electricity_unit_rate));
-            setData({...data,total:total,electricity_consumed:electricity_units_consumed,electricity_units:event.target.value,amount_collected:total});
+            // console.log(total,room.balance)
+            setData({...data,total:total,electricity_consumed:electricity_units_consumed,electricity_units:event.target.value,amount_collected:total + room.balance});
         }
         else if(event.target.name=='recurring_charges'){
             let total =  (isNaN(input) ? 0 : input) + data.rent + (data.electricity_consumed * parseInt(room.electricity_unit_rate));
-            setData({...data,total:total,recurring_charges:input,amount_collected:total});
+            setData({...data,total:total,recurring_charges:input,amount_collected:total + room.balance});
         }
         else if(event.target.name=='rent'){
             let total =  data.recurring_charges + (isNaN(input) ? 0 : input) + (data.electricity_consumed * parseInt(room.electricity_unit_rate));
-            setData({...data,total:total,rent:input,amount_collected:total});
+            setData({...data,total:total,rent:input,amount_collected:total + room.balance});
         }
         else if(event.target.name=='amount_collected'){
             setData({...data,amount_collected:input,balance:data.total+room.balance- input});
