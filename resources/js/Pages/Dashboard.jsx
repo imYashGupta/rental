@@ -20,8 +20,9 @@ function classNames(...classes) {
 const getChangeDiff = (_a,_b) => {
     let a = parseInt(_a);
     let b = parseInt(_b);
-    return (( b / a * 100 ) - 100);
-    // return   ( a<b ? "-" + ((b - a) * 100) / a : ((a - b) * 100) / b );
+    // return (( b / a * 100 ) - 100).toFixed();
+    return   ( a<b ? "-" + (((b - a) * 100) / a).toFixed() : (((a - b) * 100) / b).toFixed() );
+
 }
 
 
@@ -83,7 +84,7 @@ const Dashboard = (props) => {
             },
         },
     ];
-    console.log();
+    console.log(stats);
 
     return (
         <AuthenticatedLayout
@@ -139,7 +140,7 @@ const Dashboard = (props) => {
                             </Switch.Group>
                         </div>
                         <dl className=" grid grid-cols-1   bg-white overflow-hidden  divide-y divide-gray-200 md:grid-cols-3 md:divide-y-0 md:divide-x">
-                            {stats.map((item) => (
+                            {stats.map((item,index) => (
                                 <div
                                     key={item.name}
                                     className="px-4 py-5 sm:p-6"
@@ -149,13 +150,13 @@ const Dashboard = (props) => {
                                     </dt>
                                     <dd className="mt-1 flex justify-between items-baseline md:block lg:flex">
                                         <div className="flex items-baseline text-2xl font-semibold text-indigo-600">
-                                            ₹{item.stat}
+                                            ₹{ new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 3 }).format(item.stat) }
                                             <span className="ml-2 text-sm font-medium text-gray-500">
-                                                from ₹{item.previousStat}
+                                                {index!=2 ? "Last Month ₹" : "From "}{item.previousStat}
                                             </span>
                                         </div>
 
-                                        {!isNaN(item.change) && <div
+                                        {!["Nan","-Infinity","Infinity"].includes(item.change) && <div
                                             className={classNames(
                                                 item.changeType() === "increase"
                                                     ? "bg-green-100 text-green-800"

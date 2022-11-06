@@ -13,16 +13,16 @@ class DashboardController extends Controller
 {
     public function dashboard()
     {
-        $currentMonth= Transaction::whereMonth('rent_of', '=', Carbon::now()->month)->sum("total_amount");
+        $currentMonth= Transaction::whereMonth('rent_of', '=', Carbon::now()->month)->sum("amount_collected");
         $currentMonthElectricity= Transaction::whereMonth('rent_of', '=', Carbon::now()->month)->sum("electricity_charges");
         // return  Carbon::now()->subMonthNoOverflow()->month;
         $lastMonthElectricity= Transaction::whereMonth('rent_of', '=', Carbon::now()->subMonthNoOverflow()->month)->sum("electricity_charges");
-        $lastMonth= Transaction::whereMonth('rent_of', '=', Carbon::now()->subMonthNoOverflow()->month)->sum("total_amount");
-        $currentYear= Transaction::whereYear('rent_of', '=', Carbon::now()->year)->sum("total_amount");
+        $lastMonth= Transaction::whereMonth('rent_of', '=', Carbon::now()->subMonthNoOverflow()->month)->sum("amount_collected");
+        $currentYear= Transaction::whereYear('rent_of', '=', Carbon::now()->year)->sum("amount_collected");
         $currentYearElectricity= Transaction::whereYear('rent_of', '=', Carbon::now()->year)->sum("electricity_charges");
-        $lastYear= Transaction::whereYear('rent_of', '=', Carbon::now()->subYearNoOverflow()->year)->sum("total_amount");
+        $lastYear= Transaction::whereYear('rent_of', '=', Carbon::now()->subYearNoOverflow()->year)->sum("amount_collected");
         $lastYearElectricity= Transaction::whereYear('rent_of', '=', Carbon::now()->subYearNoOverflow()->year)->sum("electricity_charges");
-        $totalIncome= Transaction::where("user_id",auth()->id())->sum("total_amount");
+        $totalIncome= Transaction::where("user_id",auth()->id())->sum("amount_collected");
          $all= Transaction::get()->groupBy(function($val) {
             return Carbon::parse($val->rent_of)->format('m-Y');
         });

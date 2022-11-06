@@ -18,7 +18,7 @@ class TransactionController extends Controller
      */
     public function index(Room $room)
     {
-        $transactions= Transaction::where("room_id",$room->id)->latest()->get();
+        $transactions= Transaction::where("room_id",$room->id)->with("tenant")->latest()->get();
         return Inertia::render('Transactions',["room" => $room,"transactions" => $transactions]);
     }
 
@@ -42,6 +42,7 @@ class TransactionController extends Controller
      */
     public function store(Request $request,Room $room)
     {
+
        /*  $request->validate([
             "name" => ["string","required"],
             "description" => ["string","max:255"],
@@ -140,9 +141,14 @@ class TransactionController extends Controller
      * @param  \App\Models\Transaction  $transaction
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Transaction $transaction)
+    public function destroy(Room $room,Transaction $transaction)
     {
-        //
+        if($transaction->user_id==auth()->user()->id){
+            $transaction->delete();
+            return redirect()->back()->with("success","Transaction Deleted.");
+        }
+
+
     }
 
     public function vacant(Room $room)

@@ -1,1 +1,0 @@
-import{a as s}from"./app.00ad6f6e.js";function a({name:o,value:r,handleChange:i,checked:n}){return s("input",{type:"checkbox",name:o,value:r,className:"rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50",onChange:e=>i(e),checked:n})}export{a as C};

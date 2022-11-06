@@ -119,4 +119,15 @@ class RoomController extends Controller
     {
         //
     }
+
+    public function resetElectricity(Request $request,Room $room)
+    {
+        $userRoom=Room::where("user_id",auth()->user()->id)->where("id",$room->id)->first();
+        if($userRoom){
+            $userRoom->initial_electricity_units = $request->units;
+            $userRoom->update();
+            return response()->json(["message"=>"Meter Reset Successfully","room" => $userRoom],200);
+        }
+        return response()->json(["message"=>"Meter Reset Failed","room" => $room],400);
+    }
 }

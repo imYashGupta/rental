@@ -34,6 +34,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource("property.rooms",RoomController::class);
     Route::resource("rooms.transaction",TransactionController::class);
     Route::get("rooms/{room}/vacant",[TransactionController::class,"vacant"])->name("vacant");
+    Route::post("rooms/{room}/reset-electricity",[RoomController::class,"resetElectricity"])->name("resetElectricity");
 });
 Route::get("myntra",[DashboardController::class,"myntra"])->name("myntra");
 
