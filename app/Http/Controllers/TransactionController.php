@@ -144,6 +144,10 @@ class TransactionController extends Controller
     public function destroy(Room $room,Transaction $transaction)
     {
         if($transaction->user_id==auth()->user()->id){
+            if($transaction->type=="ADVANCE"){
+                $room->tenant_id = NULL;
+                $room->update();
+            }
             $transaction->delete();
             return redirect()->back()->with("success","Transaction Deleted.");
         }
