@@ -34,7 +34,7 @@ class Room extends Model
                         "date" => $futureDate->format("d M, Y"),
                         "month" => $futureDate->format("F"),
                         "_date"=> $futureDate,
-                        "remaining" => ceil($futureDate->floatDiffInMonths(now(),false)) * ($this->rental+$this->recurring_charges),
+                        "remaining" => ceil($futureDate->floatDiffInMonths(now(),false)) * ($this->rental+$this->recurring_charges) + $transaction->balance,
                     ];
                 }
             }

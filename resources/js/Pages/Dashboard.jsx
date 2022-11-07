@@ -49,6 +49,7 @@ const Dashboard = (props) => {
             changeType: function () {
                 return this.change > 0 ? "increase" : "decrease";
             },
+            text:"Last Month ₹",
         },
         {
             name: "Electricity",
@@ -68,6 +69,8 @@ const Dashboard = (props) => {
             changeType: function () {
                 return this.change > 0 ? "increase" : "decrease";
             },
+            text:"Last Month ₹",
+
         },
         {
             name: "Total Income",
@@ -82,6 +85,15 @@ const Dashboard = (props) => {
             changeType: function () {
                 return this.change > 0 ? "increase" : "decrease";
             },
+            text:"From ",
+
+        },
+        {
+            name: "Potential Rent Remaining",
+            stat: props.stats.dueRent,
+
+
+            text:""
         },
     ];
     console.log(stats);
@@ -139,7 +151,7 @@ const Dashboard = (props) => {
 
                             </Switch.Group>
                         </div>
-                        <dl className=" grid grid-cols-1   bg-white overflow-hidden  divide-y divide-gray-200 md:grid-cols-3 md:divide-y-0 md:divide-x">
+                        <dl className=" grid grid-cols-1   bg-white overflow-hidden  divide-y divide-gray-200 md:grid-cols-4 md:divide-y-0 md:divide-x">
                             {stats.map((item,index) => (
                                 <div
                                     key={item.name}
@@ -152,11 +164,11 @@ const Dashboard = (props) => {
                                         <div className="flex items-baseline text-2xl font-semibold text-indigo-600">
                                             ₹{ new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 3 }).format(item.stat) }
                                             <span className="ml-2 text-sm font-medium text-gray-500">
-                                                {index!=2 ? "Last Month ₹" : "From "}{item.previousStat}
+                                                {item.text}{item.previousStat}
                                             </span>
                                         </div>
 
-                                        {!["Nan","-Infinity","Infinity"].includes(item.change) && <div
+                                        {!["Nan","-Infinity","Infinity"].includes(item.change) && index < 3 && <div
                                             className={classNames(
                                                 item.changeType() === "increase"
                                                     ? "bg-green-100 text-green-800"

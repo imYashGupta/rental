@@ -30,9 +30,8 @@ class DashboardController extends Controller
         // return Room::all();
 
         $upcomingRents=Room::whereNotNull("user_id")->limit(3)->get();
-
-
-
+        $rooms= Room::where("user_id",auth()->user()->id)->get();
+        $dueRent = $rooms->pluck("next_month")->whereNotNull()->pluck("remaining")->sum();
        $stats=[
             "currentMonth" => $currentMonth,
             "currentMonthElectricity" => $currentMonthElectricity,
@@ -45,7 +44,8 @@ class DashboardController extends Controller
             "all" => $all,
             "total" => $totalIncome,
             "start_date" => $all?->first()?->first()?->rent_month,
-            "upcomingRents" => $upcomingRents
+            "upcomingRents" => $upcomingRents,
+            "dueRent" => $dueRent
         ];
 
         return Inertia::render("Dashboard",["stats" => $stats]);
