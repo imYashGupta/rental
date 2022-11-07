@@ -33,7 +33,8 @@ class Room extends Model
                         // "days_remain_text" => $days > 0 ? "$days days left" : "Delayed by ".abs($days)." day",
                         "date" => $futureDate->format("d M, Y"),
                         "month" => $futureDate->format("F"),
-                        "_date"=> $futureDate
+                        "_date"=> $futureDate,
+                        "remaining" => ceil($futureDate->floatDiffInMonths(now(),false)) * ($this->rental+$this->recurring_charges),
                     ];
                 }
             }

@@ -25,6 +25,10 @@ const RoomCard = ({room,SetShowRoom}) => {
                                           room.next_month.days
                                       ).toString() +
                                       " Days"}
+{" | "}
+₹{
+                                        room.next_month.remaining
+                                      }
                             </p>
                         </div>
                          }

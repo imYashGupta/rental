@@ -20,7 +20,9 @@ class RoomController extends Controller
 
 
         $rooms=Room::where("property_id",$property->id)->get();
-        return Inertia::render('Rooms',["rooms" => $rooms,"property" => $property]);
+
+
+       return Inertia::render('Rooms',["rooms" => $rooms,"property" => $property]);
 
     }
 
@@ -130,4 +132,6 @@ class RoomController extends Controller
         }
         return response()->json(["message"=>"Meter Reset Failed","room" => $room],400);
     }
+
+
 }
