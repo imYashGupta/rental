@@ -18,5 +18,5 @@
     "short_name": "RENTAL",
     "start_url": "https://rental.yashgupta.work/",
     "theme_color": "#000000",
-    "prefer_related_applications": "false"
+    "prefer_related_applications": false
   }
