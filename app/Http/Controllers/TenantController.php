@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use Inertia\Inertia;
-use App\Models\Property;
+use App\Models\Tenant;
 use Illuminate\Http\Request;
 
-class PropertyController extends Controller
+class TenantController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,11 +14,7 @@ class PropertyController extends Controller
      */
     public function index()
     {
-         ;
-
-        $properties=Property::where("user_id",auth()->user()->id)->get();
-        return Inertia::render('Properties',["properties" => $properties]);
-
+        //
     }
 
     /**
@@ -30,7 +24,7 @@ class PropertyController extends Controller
      */
     public function create()
     {
-        return Inertia::render('CreateProperty');
+        //
     }
 
     /**
@@ -41,26 +35,16 @@ class PropertyController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            "name" => "required|string|max:255",
-            "address" => "string|max:255",
-        ]);
-
-        $property = new Property();
-        $property->user_id = auth()->user()->id;
-        $property->name = $request->name;
-        $property->address = $request->address;
-        $property->save();
-        return redirect()->route("property.index",$property->id);
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Property  $property
+     * @param  \App\Models\Tenant  $tenant
      * @return \Illuminate\Http\Response
      */
-    public function show(Property $property)
+    public function show(Tenant $tenant)
     {
         //
     }
@@ -68,10 +52,10 @@ class PropertyController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Property  $property
+     * @param  \App\Models\Tenant  $tenant
      * @return \Illuminate\Http\Response
      */
-    public function edit(Property $property)
+    public function edit(Tenant $tenant)
     {
         //
     }
@@ -80,10 +64,10 @@ class PropertyController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Property  $property
+     * @param  \App\Models\Tenant  $tenant
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Property $property)
+    public function update(Request $request, Tenant $tenant)
     {
         //
     }
@@ -91,10 +75,10 @@ class PropertyController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Property  $property
+     * @param  \App\Models\Tenant  $tenant
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Property $property)
+    public function destroy(Tenant $tenant)
     {
         //
     }

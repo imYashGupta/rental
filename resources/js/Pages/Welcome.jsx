@@ -101,6 +101,7 @@ const navigation = [
 ];
 
 export default function Welcome(props) {
+    console.log(props)
     return (
         <div className="min-h-screen bg-gray-900">
             <div className="relative overflow-hidden">
@@ -120,7 +121,7 @@ export default function Welcome(props) {
                                                 </span>
                                                 <img
                                                     className="h-8 w-auto sm:h-10"
-                                                    src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
+                                                    src="./assets/logo.png"
                                                     alt=""
                                                 />
                                             </a>
@@ -149,7 +150,7 @@ export default function Welcome(props) {
                                         </div>
                                     </div>
                                     <div className="hidden md:flex md:items-center md:space-x-6">
-                                        {!props.auth ? (
+                                        {!props.auth.user ? (
                                             <>
                                                 <Link
                                                     href={route("login")}
@@ -196,7 +197,7 @@ export default function Welcome(props) {
                                             <div>
                                                 <img
                                                     className="h-8 w-auto"
-                                                    src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+                                                    src="./assets/logo.png"
                                                     alt=""
                                                 />
                                             </div>
@@ -224,7 +225,7 @@ export default function Welcome(props) {
                                                     </a>
                                                 ))}
                                             </div>
-                                            {!props.auth ? (
+                                            {!props.auth.user ? (
                                                 <>
                                                     <div className="mt-6 px-5">
                                                         <Link

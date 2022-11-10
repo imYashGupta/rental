@@ -10,19 +10,20 @@ import {
     EyeIcon,
 } from "@heroicons/react/24/outline";
 import Header from "@/Components/Header";
+import Alert from "@/Components/Alert";
 
 export default function Dashboard(props) {
     return (
         <AuthenticatedLayout
             auth={props.auth}
             errors={props.errors}
-            header={<Header title="Properties" back={route("dashboard")} actionButton={{text:"Create New Property",url:route("property.create"),icon:"BuildingOfficeIcon"}} />}
+            header={<Header title="Properties" back={route("dashboard")} actionButton={{text:"Create New",url:route("property.create"),icon:"BuildingOfficeIcon"}} />}
         >
             <Head title="Dashboard" />
 
             <div className="md:py-6">
                 <div className="list-container">
-                    {props.properties.map((property) => {
+                    {props.properties.length > 0 ? props.properties.map((property) => {
                         return (
                             <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 mb-2">
                                 <div className="list-items flex flex-row md:items-center border-b  bg-white shadow-lg sm:rounded-lg my-1 md:p-6 p-4">
@@ -57,7 +58,9 @@ export default function Dashboard(props) {
                                 </div>
                             </div>
                         );
-                    })}
+                    }) : (<div className="mt-2"><Alert message={"There is no property to view."} color="gray" action={{text:"Create Property",url:route("property.create")}} /></div>)
+
+                    }
                 </div>
             </div>
         </AuthenticatedLayout>

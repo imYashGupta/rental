@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use App\Models\Transaction;
+use App\Models\Tenant;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -48,7 +49,7 @@ class Room extends Model
     public function getTenantAttribute()
     {
         if(!is_null($this->tenant_id)){
-            return User::find($this->tenant_id);
+            return Tenant::find($this->tenant_id);
         }
         return false;
     }

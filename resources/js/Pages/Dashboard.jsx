@@ -168,7 +168,7 @@ const Dashboard = (props) => {
                                             </span>
                                         </div>
 
-                                        {!["Nan","-Infinity","Infinity"].includes(item.change) && index < 3 && <div
+                                        {!["NaN","-Infinity","Infinity"].includes(item.change) && index < 3 && <div
                                             className={classNames(
                                                 item.changeType() === "increase"
                                                     ? "bg-green-100 text-green-800"

@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Room;
 use App\Models\User;
 use Inertia\Inertia;
+use App\Models\Tenant;
 use App\Models\Transaction;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class TransactionController extends Controller
@@ -84,14 +85,16 @@ class TransactionController extends Controller
             $room->tenant_id = NULL;
         }
         if($request->type=="ADVANCE"){
-            $user = new User();
-            $user->name = $request->name;
-            $user->email = $request->email;
-            $user->save();
-            $room->tenant_id = $user->id;
+            $tenant = new Tenant();
+            $tenant->name = $request->name;
+            $tenant->email = $request->email;
+            $tenant->phone = $request->phone;
+            $tenant->created_by = auth()->user()->id;
+            $tenant->save();
+            $room->tenant_id = $tenant->id;
             $room->advance_rental = $transaction->total_amount;
             $room->update();
-            $transaction->tenant_id = $user->id;
+            $transaction->tenant_id = $tenant->id;
         }
         if($request->type=="REGULAR"){
             $transaction->tenant_id = $room->tenant_id;
