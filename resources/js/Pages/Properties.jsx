@@ -19,7 +19,7 @@ export default function Dashboard(props) {
             errors={props.errors}
             header={<Header title="Properties" back={route("dashboard")} actionButton={{text:"Create New",url:route("property.create"),icon:"BuildingOfficeIcon"}} />}
         >
-            <Head title="Dashboard" />
+            <Head title="Properties" />
 
             <div className="md:py-6">
                 <div className="list-container">

@@ -15,7 +15,7 @@ export default function Dashboard(props) {
             errors={props.errors}
             header={<Header back={route("property.rooms.index",props.room.property_id)} title="Transaction History"  />}
         >
-            <Head title="Dashboard" />
+            <Head title="Transactions" />
             <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 mb-2 ">
                 {
                   props.transactions.length > 0 ?

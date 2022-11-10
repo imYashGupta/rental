@@ -44,7 +44,7 @@ export default function Dashboard(props) {
             header={<Header back={route("property.rooms.index",room.property_id)} title="Edit Room Details"  />}
 
         >
-            <Head title="Create New Property" />
+            <Head title="Edit Room" />
 
             <div className="py-1">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 sm:py-6 lg:py-8">

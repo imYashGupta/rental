@@ -25,7 +25,7 @@ export default function Dashboard(props) {
                 />
             }
         >
-            <Head title="Dashboard" />
+            <Head title="Rooms" />
             <div className="max-w-7xl m-auto bg-white shadow sm:rounded-md mt-1">
                 <ul className="divide-y  divide-gray-200">
                     {props.rooms.map((room) => <RoomCard room={room} SetShowRoom={SetShowRoom} />)}

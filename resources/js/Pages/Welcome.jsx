@@ -18,7 +18,7 @@ import { Fragment } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { ChevronRightIcon } from "@heroicons/react/24/solid";
-import { Link } from "@inertiajs/inertia-react";
+import { Link ,Head} from "@inertiajs/inertia-react";
 const navigationfooter = {
     main: [
         { name: "About", href: "#" },
@@ -103,7 +103,9 @@ const navigation = [
 export default function Welcome(props) {
     console.log(props)
     return (
-        <div className="min-h-screen bg-gray-900">
+        <>
+            <Head title="RENTAL - A better way to Manage Rent." />
+            <div className="min-h-screen bg-gray-900">
             <div className="relative overflow-hidden">
                 <Popover as="header" className="relative">
                     {({ open }) => (
@@ -404,6 +406,7 @@ export default function Welcome(props) {
                     </p>
                 </div>
             </footer>
-        </div>
+            </div>
+        </>
     );
 }

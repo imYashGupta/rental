@@ -7,9 +7,15 @@
         "src": "./assets/logo.png",
         "sizes": "192x192",
         "type": "image/png"
+      },
+      {
+        "src": "./assets/512x512.png",
+        "sizes": "512x512",
+        "type": "image/png"
       }
     ],
     "name": "RENTAL - A better way to Manage Rent.",
     "short_name": "RENTAL",
-    "start_url": "/"
+    "start_url": "/",
+    "theme_color": "#000000"
   }
