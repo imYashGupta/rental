@@ -16,6 +16,7 @@
     ],
     "name": "RENTAL - A better way to Manage Rent.",
     "short_name": "RENTAL",
-    "start_url": "/",
-    "theme_color": "#000000"
+    "start_url": "https://rental.yashgupta.work/",
+    "theme_color": "#000000",
+    "prefer_related_applications": "false"
   }
