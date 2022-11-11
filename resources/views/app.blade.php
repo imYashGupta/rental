@@ -5,7 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="manifest" href="manifest.json" />
         <title inertia>{{ config('app.name', 'Laravel') }}</title>
-
+        <meta name="theme-color" media="(prefers-color-scheme: light)" content="#6366f1" />
+        <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#111827" />
         <!-- Fonts -->
         <link rel="stylesheet" href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap">
         <style>
